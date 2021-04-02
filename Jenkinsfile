@@ -1,17 +1,41 @@
-pipeline{
-  agent any
-  environment {
-  PATH = "${PATH}:${getTerraformPath()}"
-}
-  stages{
-    stage('terraform — version'){
-      steps{
-        sh "terraform init"
-      }
-    }
-  }
-  }
-def getTerraformPath(){
-  def tfHome = tool name: 'Terraform-12', type: 'terraform'
-  return tfHome
+pipeline {
+ agent any
+ 
+ stages {
+ stage(‘checkout’) {
+ steps {
+ git branch: ‘develop’, url: ‘git@your url’
+ 
+ }
+ }
+ stage(‘Set Terraform path’) {
+ steps {
+ script {
+ def tfHome = tool name: ‘Terraform’
+ env.PATH = “${tfHome}:${env.PATH}”
+ }
+ sh ‘terraform — version’
+ 
+ 
+ }
+ }
+ 
+ stage(‘Provision infrastructure’) {
+ 
+ steps {
+ dir(‘dev’)
+ {
+ sh ‘terraform init’
+ sh ‘terraform plan -out=plan’
+ // sh ‘terraform destroy -auto-approve’
+ sh ‘terraform apply plan’
+ }
+ 
+ 
+ }
+ }
+ 
+ 
+ 
+ }
 }
