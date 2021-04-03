@@ -9,11 +9,6 @@ pipeline{
         git credentialsId: 'd5075fae-5d58-43db-bf5f-3bdb617dd015', url: 'https://github.com/Krishnadev3699/hello-world'
       }
     }
-    stage('terraform init'){
-      steps{
-        sh 'terraform init'
-      }
-    }
     stage('terraform apply'){
       steps{
         sh 'terraform destroy --auto-approve'
