@@ -1,22 +1,13 @@
-pipeline{
-  agent any
-  environment {
-  PATH = "${PATH}:${getTerraformPath()}"
+provider "aws" {
+    access_key = "AKIA5W77SI3N4YYOOJSY"
+    secret_key = "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"
+    region = "ap-south-1"
 }
-  stages{
-    stage('terraform version'){
-      steps{
-        sh "terraform --version"
-      }
-    }
-    stage('terraform init'){
-      steps{
-        sh "terraform init"
-      }
-    }
-  }
-  }
-def getTerraformPath(){
-  def tfHome = tool name: 'Terraform-12', type: 'terraform'
-  return tfHome
+
+resource "aws_instance" "test" {
+        ami = "ami-0b4ae44071f50f757"
+        instance_type = "t2.micro"
+ tags = {
+     Name = "JenInstance"
+        }
 }
