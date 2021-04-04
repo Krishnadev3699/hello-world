@@ -25,5 +25,3 @@ def getTerraformPath(){
   def tfHome = tool name: 'Terraform-12', type: 'terraform'
   return tfHome
 }
-
-
